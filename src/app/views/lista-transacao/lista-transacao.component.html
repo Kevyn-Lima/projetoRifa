@@ -1,0 +1,113 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Tabela de Transações
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+<!--            <a [routerLink]="'/dashboard'">-->
+<!--              <button type="button" class="btn btn-block btn-outline-success active" aria-pressed="true">Adicionar-->
+<!--              </button>-->
+<!--            </a>-->
+            <tr>
+              <th>Código</th>
+              <th>Usuario</th>
+              <th>Créditos</th>
+              <th>Tipo de Pack</th>
+              <th>Valor Bruto</th>
+              <th>Valor Liquido</th>
+              <th>Tipo de pagamento</th>
+              <th>Status</th>
+              <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let trans of transacao">
+              <td>{{trans.id}}</td>
+              <td>{{trans.user.id}} - {{trans.user.name}}</td>
+              <td>{{trans.pack.credits}}</td>
+              <td>{{trans.pack.title}}</td>
+              <td>{{trans.grossAmount | currency:'BRL':true}}</td>
+              <td>{{trans.netAmount | currency:'BRL':true}}</td>
+              <td>{{trans.paymentType === 'BOLETO'?'Boleto':'Cartão de Crédito'}}</td>
+              <td>
+                <span >{{trans.status.description}}</span>
+              </td>
+              <td>
+                <a *ngIf="trans.status.description !== 'Cancelado' && trans.status.tag != 'ESTORNADA'">
+                  <button type="button" class="btn btn-primary mr-1" (click)="smallModal.show();onRefresh(trans)">
+                    <i class="icon-refresh icons font-1x0 " style="color: white;" (click)="smallModal.show();onRefresh(trans)"></i>
+                  </button>
+                  <div bsModal #smallModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                    <div class="modal-dialog modal-sm" role="document">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <p>O pagamento foi atualizado</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" (click)="smallModal.hide();" >OK</button>
+                        </div>
+                      </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                  </div><!-- /.modal -->
+                </a>
+                <a *ngIf="trans.status.description === 'Cobrança emitida' || trans.status.description === 'Aguardando'">
+                  <button type="button" class="btn btn-danger" (click)="smallModal.show()">
+                    <i  class="icon-close icons font-1x0  " style="color: white;" (click)="smallModal.show()"></i>
+                    </button>
+                    <div bsModal #smallModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                      <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <p>Deseja cancelar o pagamento ?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" (click)="onConfirmCancel(trans);smallModal.hide();" >Sim</button>
+                            <button type="button" class="btn btn-secondary" (click)="smallModal.hide()">Não</button>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                  </a>
+                <a *ngIf="trans.status.description === 'Pagamento compensado' && trans.status.description !== 'Cancelado'" >
+                  <button type="button" class="btn btn-warning" (click)="smallModal.show()">
+                    <i class="icon-action-undo icons font-1x0" style="color: white;" (click)="smallModal.show()"></i>
+                  </button>
+                    <div bsModal #smallModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <p>Deseja realizar o estorno do pagamento ?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" (click)="onChargeBack(trans);smallModal.hide();" >Sim</button>
+                            <button type="button" class="btn btn-secondary" (click)="smallModal.hide()">Não</button>
+                          </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </a>
+                <a *ngIf="trans.paymentType === 'BOLETO' && trans.status.description !== 'Cancelado' && trans.status.tag != 'ESTORNADA'"
+                   [href]="trans.paymentLink" target="_blank" >
+                  <button type="button" class="btn btn-secondary">
+                    <i class="icon-doc icons font-1x0" style="color: white;"></i>
+                  </button>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item"><button [disabled]="page.num === 0 " class="page-link" (click)="pageTransacao(page.num-1)" >Prev</button></li>
+
+            <li class="page-item"><button [disabled]="page.num === (page.total - 1)" class="page-link" (click)="pageTransacao(page.num +1)">Next</button></li>
+          </ul>
+          <p> Página {{page.num + 1}} de {{page.total}}</p>
+        </div>
+         </div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <strong>Adicionar Item</strong>
+      </div>
+      <div class="card-body">
+        <form #fadicionar="ngForm" (ngSubmit)="salvar(fadicionar)" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Item</label>
+            <div class="col-md-9">
+              <input required=" required" id="title" minlength="3" type="text" name="title" class="form-control" placeholder="Item"  ngModel #title="ngModel">
+                <div *ngIf="title.touched && !title.valid" class="alert alert-danger">
+                  <div *ngIf="title.errors?.required">Digite o nome do Item</div>
+                  <div *ngIf="title.errors?.minlength">Digite um nome valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Descrição</label>
+            <div class="col-md-9">
+              <input required="required" id="description" minlength="3" type="text" name="description" class="form-control" placeholder="Descrição" ngModel #description="ngModel">
+                <div *ngIf="description.touched && !description.valid" class="alert alert-danger">
+                  <div *ngIf="description.errors?.required"> Digite a descrição do item</div>
+                  <div *ngIf="description.errors?.minlength"> Digite uma descrição valida</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Maximo de pessoas</label>
+            <div class="col-md-9">
+              <input required="required" id="maxPeople" minlength="1" type="number" name="maxPeople" class="form-control" placeholder="Maximo de pessoas" ngModel #maxPeople="ngModel">
+                <div *ngIf="maxPeople.touched && !maxPeople.valid" class="alert alert-danger">
+                  <div *ngIf="maxPeople.errors?.required"> Insira o numero de pessoas</div>
+                  <div *ngIf="maxPeople.errors?.minlength">Insira um numero valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" >Preços</label>
+            <div class="col-md-9">
+              <input required="required" id="price" minlength="1" type="number" name="price" class="form-control" placeholder="Preço"  ngModel #price="ngModel">
+                <div *ngIf="price.touched && !price.valid" class="alert alert-danger">
+                  <div *ngIf="price.errors?.required">Digite o preço</div>
+                  <div *ngIf="price.errors?.minlength">Digite um preço valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="file-multiple-input">Selecione os arquivos</label>
+            <div class="col-md-9">
+              <input (change)="onChange($event)" required  type="file" id="file-multiple-input" name="file-multiple-input" multiple ngModel>
+            </div>
+          </div>
+          <button type="button" class="button btn1" [routerLink]="'/lista-itens/'"> Cancelar</button>
+            <button type="submit" class="button btn2" href='#/lista-itens'> Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div><!--/.col-->
+</div>

@@ -1,0 +1,188 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Tabela de Itens
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+            <a [routerLink]="'/adicionar-lista-itens'">
+              <button type="button" class="btn btn-block btn-outline-success active" aria-pressed="true">Adicionar
+              </button>
+            </a>
+            <tr>
+              <th>Código</th>
+              <th>Item</th>
+              <th>Descrição</th>
+              <th>Dono</th>
+              <th>Preço</th>
+              <th>Máximo de Pessoas</th>
+              <th>Status</th>
+              <th>Ganhadores</th>
+              <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let iten of itens">
+              <td>{{iten.id}}</td>
+              <td>{{iten.title}}</td>
+              <td>{{iten.description}}</td>
+              <td>{{iten.owner.name}}</td>
+              <td>{{iten.price}}</td>
+              <td>{{iten.maxPeople}}</td>
+              <td>
+                <span>{{iten.status.description}}</span>
+              </td>
+              <td>{{iten?.winner?.name}}</td>
+              <td>
+                <button type="button" class="btn btn-primary mr-1" data-toggle="modal" (click)="showImages(iten)">
+                  <i class="icon-paper-clip icons font-1x0 " style="color:white"></i>
+                </button>
+                <a [routerLink]="'/editar-lista-itens/' + iten.id">
+                  <button type="button" class="btn btn-warning">
+                    <i class="icon-note icons font-1x0  " style="color: white;"></i>
+                  </button>
+                </a>
+                <button type="button" class="btn btn-success" (click)="tickets(iten);primaryModal1.show()">
+                  <i  class="fa fa-ticket icons font-1x0  " style="color: white;" ></i>
+                </button>
+                <a *ngIf="iten.status && iten.status.tag === 'EM_SORTEIO'">
+                  <button type="button" class="btn btn-info" (click)="smallModal2.show()">
+                    <i  class="icon-globe icons font-1x0  " style="color: white;" (click)="smallModal2.show()"></i>
+                  </button>
+                  <div bsModal #smallModal2="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                    <div class="modal-dialog modal-sm" role="document">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <p>Tem certeza que dejesa sortear o item ?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-info" (click)="sorteio(iten);smallModal3.show()" >Sim</button>
+                          <button type="button" class="btn btn-secondary" (click)="smallModal2.hide()" >Não</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div bsModal #smallModal3="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                    <div class="modal-dialog modal-sm" role="document">
+                      <div class="modal-content">
+                        <div class="modal-body" >
+                          <p>O ganhador foi: {{sorteios?.winner?.name}}</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-info" (click)="refresh()" >OK</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a *ngIf="iten.status && iten.status.description != 'Cancelado'">
+                  <button type="button" class="btn btn-danger" (click)="smallModal.show()">
+                    <i  class="icon-close icons font-1x0  " style="color: white;" (click)="smallModal.show()"></i>
+                  </button>
+                  <div bsModal #smallModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                    <div class="modal-dialog modal-sm" role="document">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <p>Deseja cancelar o item ?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-danger" (click)="onCancelItem(iten);smallModal1.show()" >Sim</button>
+                          <button type="button" class="btn btn-secondary" (click)="smallModal.hide()">Não</button>
+                        </div>
+                      </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                  </div><!-- /.modal -->
+                  <div bsModal #smallModal1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                    <div class="modal-dialog modal-sm" role="document">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <p>Item cancelado !</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-dark" (click)="refresh()" >OK</button>
+                        </div>
+                      </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                  </div><!-- /.modal -->
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item"><button [disabled]="page.num === 0 " class="page-link" (click)="pageItens(page.num-1)" >Prev</button></li>
+            <li class="page-item"><button [disabled]="page.num === (page.total - 1)" class="page-link" (click)="pageItens(page.num +1)">Next</button></li>
+          </ul>
+            <p> Página {{page.num + 1}} de {{page.total}}</p>
+        </div>
+         </div>
+      </div>
+    </div>
+</div>
+<div bsModal #primaryModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-primary" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{item?.title}}</h4>
+        <button type="button" class="close" (click)="primaryModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <carousel [interval]="false">
+          <div *ngIf="item">
+            <div *ngFor="let image of item.images">
+              <a class="left carousel-control carousel-control-prev" role="button" tabindex="0">
+                <span aria-hidden="true" class="icon-prev carousel-control-prev-icon"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control carousel-control-next" role="button" tabindex="0">
+                <span aria-hidden="true" class="icon-next carousel-control-next-icon"></span>
+                <span class="sr-only">Next</span>
+              </a>
+              <slide>
+                <img src="{{http.getUrl() + '/item/image/' + image.id}}" alt="First slide" style="display: block; width: 100%;" />
+              </slide>
+            </div>
+          </div>
+        </carousel>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="primaryModal.hide()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div bsModal #primaryModal1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-success" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Numero de tickets: {{ticket?.length}}</h4>
+        <button type="button" class="close" (click)="primaryModal1.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div *ngFor="let ticket of ticket" class="modal-body" >
+        <div>
+          <div class="card text-white bg-success text-center">
+            <div class="card-body">
+              <blockquote class="card-bodyquote">
+               <tr>
+                 <td class="ticket"><h1>Nº {{ticket.num}}</h1></td>
+                 <h4> Nome: {{ticket.user.name}}</h4>
+                 <h4> Data: {{ticket.createDate | date : 'dd-MM-yyyy HH:mm:ss' }} </h4>
+               </tr>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="primaryModal1.hide()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <strong>Adicionar Pacote</strong>
+      </div>
+      <div class="card-body">
+        <form #fadicionar="ngForm" (ngSubmit)="salvar(fadicionar)" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="name" >Titulo</label>
+            <div class="col-md-9">
+              <input required="required" minlength="3" id="name" type="text" name="title" class="form-control" placeholder="Titulo" ngModel #titulo="ngModel">
+                <div *ngIf="titulo.touched && !titulo.valid" class="alert alert-danger">
+                  <div *ngIf="titulo.errors?.required"> Digite um Titulo </div>
+                  <div *ngIf="titulo.errors?.minlength"> Digite um titulo valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Créditos</label>
+            <div class="col-md-9">
+              <input required="required" minlength="1" id="credits" type="number" name="credits" class="form-control" placeholder="Créditos" #credits="ngModel" ngModel>
+                <div *ngIf="credits.touched && !credits.valid" class="alert alert-danger">
+                  <div *ngIf="credits.errors?.required">Insira um valor de crédito</div>
+                  <div *ngIf="credits.errors?.minlength">Insira um valor valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" >Preços</label>
+            <div class="col-md-9">
+              <input required="required" id="price" minlength="1" type="number" name="price" class="form-control" placeholder="Preço"  ngModel #price="ngModel">
+              <div *ngIf="price.touched && !price.valid" class="alert alert-danger">
+                <div *ngIf="price.errors?.required">Digite o preço</div>
+                <div *ngIf="price.errors?.minlength">Digite um preço valido</div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="erro" class="alert alert-danger" >
+            <div> Erro ao cadastrar Pacote, por favor verifique se as informações estão corretas ou se ja existem.</div>
+          </div>
+          <button  type="button" class="button btn1" [routerLink]="'/lista-pacotes/'"> Cancelar</button>
+          <button  type="submit" class="button btn2"> Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

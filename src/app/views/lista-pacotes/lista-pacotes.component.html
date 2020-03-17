@@ -1,0 +1,47 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Tabela de Usuarios
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+            <a [routerLink]="'/adicionar-lista-pacotes'">
+              <button type="button" class="btn btn-block btn-outline-success active" aria-pressed="true">Adicionar
+              </button>
+            </a>
+            <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Créditos</th>
+              <th>Preço</th>
+              <th>Status</th>
+              <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let packs of pacotes">
+              <td>{{packs.id}}</td>
+              <td>{{packs.title}}</td>
+              <td>{{packs.credits}}</td>
+              <td>{{packs.price | currency: 'BRL'}}</td>
+              <td>
+                <span>{{packs.status.description}}</span>
+              </td>
+              <td>
+                <a [routerLink]="'/editar-lista-pacotes/' + packs.id">
+                  <button type="button" class="btn btn-warning">
+                    <i class="icon-note icons font-1x0  " style="color: white;"></i>
+                  </button>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

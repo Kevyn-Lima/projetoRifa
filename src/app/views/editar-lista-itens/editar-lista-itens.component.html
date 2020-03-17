@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <strong>Editar Item</strong>
+      </div>
+      <div class="card-body">
+        <form #fSalvar="ngForm" (ngSubmit)="salvar(fSalvar)" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Item</label>
+            <div class="col-md-9">
+              <input required="required" id="title" minlength="3" type="text" name="title" class="form-control" placeholder="Nome" [(ngModel)]="item.title" #title="ngModel">
+                <div *ngIf="title.touched && !title.valid" class="alert alert-danger">
+                  <div *ngIf="title.errors?.required"> Digite o nome do item</div>
+                  <div *ngIf="title.errors?.minlength"> Digite um nome valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Descrição</label>
+            <div class="col-md-9">
+              <input required="requiered" id="description" minlength="3" type="text" name="description" class="form-control" placeholder="Descrição" [(ngModel)]="item.description" #description="ngModel">
+                <div *ngIf="description.touched && !description.valid" class="alert alert-danger">
+                  <div *ngIf="description.errors?.required"> Digite uma descrição</div>
+                  <div *ngIf="description.errors?.minlength"> Digite uma descrição valida</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" >Preços</label>
+            <div class="col-md-9">
+              <input required="required" id="price" minlength="1" type="number" name="price" class="form-control" placeholder="Preço" [(ngModel)]="item.price" #price="ngModel">
+                <div *ngIf="price.touched && !price.valid" class="alert alert-danger">
+                  <div *ngIf="price.errors?.required">Digite um valor</div>
+                  <div *ngIf="price.errors?.minlength">Digite um preço valido</div>
+                </div>
+            </div>
+          </div>
+          <div *ngIf="item.status && item.status.tag !== 'CANCELADO'" class="form-group row" >
+            <label class="col-md-3 col-form-label"> Status </label>
+            <div class="col-md-9">
+              <select required name="status" class="form-control" [ngModel]="item.status" >
+                <option [value]="item.status" >{{item?.status?.description}}</option>
+                <option [value]="2" >Artefatos a ser sorteados</option>
+                <option [value]="3" >Artefato sorteado</option>
+                <option [value]="4" >Artefato entregue ao ganhador</option>
+                <option [value]="5">Cancelado</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="file-multiple-input">Selecione as fotos</label>
+          <div class="col-md-9">
+            <input (change)="onChange($event)"  type="file" id="file-multiple-input" name="file-multiple-input" multiple ngModel>
+          </div>
+        </div>
+          <div class="form-group row">
+            <label class="col-form-label col-md-1"> Fotos</label>
+            <div *ngFor="let img of item.images" class="grid-container">
+              <img src="{{http.getUrl() + '/item/image/' + img.id}}" style="display: block; width: 100%;" class="img"
+                   (dblclick)="showImage(img)"/>
+                <span class="badge badge-pill badge-danger" >
+                  <i class="cui-trash icons font-1x2  mt-5 cui-trash-center icon" role="button"
+                     data-toggle="modal" (click)="smallModal.show(img)">
+                  </i>
+                </span>
+                  <div bsModal #smallModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                        <p>Deseja remover a foto ?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-danger" (click)="onConfirmDelete(img);smallModal.hide();" >Sim</button>
+                          <button type="button" class="btn btn-secondary" (click)="smallModal.hide()">Não</button>
+                          </div>
+                      </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                  </div><!-- /.modal -->
+            </div>
+          </div>
+          <button type="button" class="button btn1" [routerLink]="'/lista-itens/'"> Cancelar</button>
+          <button type="submit" class="button btn2"> Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div><!--/.col-->
+</div>
+<div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{item?.title}}</h4>
+        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="{{http.getUrl() + '/item/image/' + image.id}}" alt="First slide" style="display: block; width: 100%;" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

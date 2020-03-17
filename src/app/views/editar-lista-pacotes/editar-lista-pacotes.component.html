@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <strong>Editar Pacote</strong>
+      </div>
+      <div class="card-body">
+        <form #fSalvar="ngForm" (ngSubmit)="salvar(fSalvar)" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Pacote</label>
+            <div class="col-md-9">
+              <input required="required" id="name" minlength="3" type="text" name="title" class="form-control" placeholder="Nome" [(ngModel)]="package.title" #title="ngModel">
+                <div *ngIf="title.touched && !title.valid" class="alert alert-danger">
+                  <div *ngIf="title.errors?.required"> Digite o nome</div>
+                  <div *ngIf="title.errors?.minlength"> Digite um nome valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" >Créditos</label>
+            <div class="col-md-9">
+              <input required="required" id="credits" minlength="1" type="number" name="credits" class="form-control" #credito="ngModel" [(ngModel)]="package.credits" >
+                <div *ngIf="credito.touched && !credito.valid" class="alert alert-danger">
+                  <div *ngIf="credito.errors?.required">Insira o valor do crédito</div>
+                  <div *ngIf="credito.errors?.minlength">Insira um valor valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" >Preço</label>
+            <div class="col-md-9">
+              <input required="required" id="price" minlength="1" type="number" name="price" class="form-control" #preco="ngModel" [(ngModel)]="package.price" >
+              <div *ngIf="preco.touched && !preco.valid" class="alert alert-danger"></div>
+              <div *ngIf="preco.errors?.required"> Digite o preço</div>
+              <div *ngIf="preco.errors?.minlength"> Digite um preço valido</div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label"> Status </label>
+            <div class="col-md-9">
+              <select required name="status" class="form-control" [ngModel]="package.status" >
+                <option [value]="package.status" >{{package?.status?.description}}</option>s
+                <option [value]="1" >Ativado</option>
+                <option [value]="5" >Cancelado</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" class="button btn1" [routerLink]="'/lista-pacotes/'"> Cancelar</button>
+          <button [disabled]="!fSalvar.valid" type="submit" class="button btn2"> Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

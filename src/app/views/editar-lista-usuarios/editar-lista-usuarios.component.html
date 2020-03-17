@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <strong>Editar Usuario</strong>
+      </div>
+      <div class="card-body">
+        <form #fSalvar="ngForm" (ngSubmit)="salvar(fSalvar)" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Nome</label>
+            <div class="col-md-9">
+              <input required="required" id="name" minlength="3" type="text" name="name" class="form-control" placeholder="Nome" [(ngModel)]="usuario.name" #name="ngModel">
+                <div *ngIf="name.touched && !name.valid" class="alert alert-danger">
+                  <div *ngIf="name.errors?.required"> Digite o nome</div>
+                  <div *ngIf="name.errors?.minlength"> Digite um nome valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Email</label>
+            <div class="col-md-9">
+              <input required="required" id="email" minlength="7" type="email" name="email" class="form-control" placeholder="Email" [(ngModel)]="usuario.email" #email="ngModel">
+                <div *ngIf="email.touched && !email.valid" class="alert alert-danger">
+                  <div *ngIf="email.errors?.required"> Digite um Email</div>
+                  <div *ngIf="email.errors?.minlength"> Digite um Emailo valido </div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" >Créditos</label>
+            <div class="col-md-9">
+              <input required type="number" name="credits" class="form-control" [(ngModel)]="usuario.credits" disabled>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label"> Status </label>
+            <div class="col-md-9">
+              <select required name="status" class="form-control" [ngModel]="usuario.status" >
+                <option [value]="usuario.status" >{{usuario?.status?.description}}</option>
+                <option [value]="1" >Ativado</option>
+                <option [value]="5" >Cancelado</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label"> Grupo </label>
+            <div class="col-md-9">
+              <select  required name="group" class="form-control" [ngModel]="usuario.group" >
+                <option [value]="usuario.group" >{{usuario?.group?.description}}</option>
+                <option [value]="1" >Administrador</option>
+                <option [value]="2" >Cliente</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" class="button btn1"[routerLink]="'/lista-usuarios/'"> Cancelar</button>
+          <button [disabled]="!fSalvar.valid" type="submit" class="button btn2"> Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div><!--/.col-->
+</div>

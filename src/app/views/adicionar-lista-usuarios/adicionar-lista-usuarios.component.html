@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <strong>Adicionar Usuario</strong>
+      </div>
+      <div class="card-body">
+        <form #fadicionar="ngForm" (ngSubmit)="salvar(fadicionar)" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="name" >Nome</label>
+            <div class="col-md-9">
+              <input required="required" minlength="3" id="name" type="text" name="name" class="form-control" placeholder="Nome" ngModel #name="ngModel">
+                <div *ngIf="name.touched && !name.valid" class="alert alert-danger">
+                  <div *ngIf="name.errors?.required"> Digite um nome </div>
+                  <div *ngIf="name.errors?.minlength"> Digite um nome valido</div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="email">Email</label>
+            <div class="col-md-9">
+              <input required="required" minlength="7" id="email" type="email" name="email" class="form-control" placeholder="Email" ngModel #email="ngModel">
+                <div *ngIf="email.touched && !email.valid" class="alert alert-danger">
+                  <div *ngIf="email.errors?.required"> Digite um Email </div>
+                  <div *ngIf="email.errors?.minlength"> Digite um Email valido</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Créditos</label>
+            <div class="col-md-9">
+                <input type="number" name="credits" class="form-control" placeholder="Créditos" ngModel>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Senha</label>
+            <div class="col-md-9">
+              <input required="required" minlength="6" maxlength="20" id="senha" type="password" name="password" class="form-control" placeholder="Senha" ngModel #senha="ngModel">
+              <div *ngIf="senha.touched && !senha.valid" class="alert alert-danger">
+                <div *ngIf="senha.errors?.required">Digite uma senha</div>
+                <div *ngIf="senha.errors?.minlength">Digite uma senha com no minimo 6 digitos</div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="erro" class="alert alert-danger" >
+            <div> Erro ao cadastrar usuario, por favor verifique se o email ja esta cadastrado</div>
+          </div>
+          <button  type="button" class="button btn1" [routerLink]="'/lista-usuarios/'"> Cancelar</button>
+          <button  type="submit" class="button btn2"> Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
