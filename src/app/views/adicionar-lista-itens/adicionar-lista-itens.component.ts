@@ -21,15 +21,14 @@ export class AdicionarListaItensComponent implements OnInit {
     console.log(this.images);
     this.http.post( "/item/register", form.value).subscribe((res: any) => {
         console.log(res);
+        if (this.images !== undefined) {
         const formData = new FormData();
         for (const img of this.images) {
           formData.append('file', img);
           formData.append('item', res.id);
         }
-        this.http.postUpload('/item/upload', formData).subscribe((resUpload: any) => {
-          console.log('resUpload', resUpload);
-          // this.router.navigateByUrl('/lista-itens');
-        }, e => console.log(e));
+        }
+        this.router.navigateByUrl('/lista-itens');
       },
       (error: any) => {
         console.log(error);

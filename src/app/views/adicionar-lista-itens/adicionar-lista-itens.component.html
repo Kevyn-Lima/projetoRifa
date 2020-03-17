@@ -49,7 +49,7 @@
           <div class="form-group row">
             <label class="col-md-3 col-form-label" for="file-multiple-input">Selecione os arquivos</label>
             <div class="col-md-9">
-              <input (change)="onChange($event)" required  type="file" id="file-multiple-input" name="file-multiple-input" multiple ngModel>
+              <input (change)="onChange($event)" type="file" id="file-multiple-input" name="file-multiple-input" multiple ngModel>
             </div>
           </div>
           <button type="button" class="button btn1" [routerLink]="'/lista-itens/'"> Cancelar</button>

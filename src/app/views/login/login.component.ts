@@ -8,6 +8,7 @@ import {HttpService} from '../../services/http.service';
 })
 export class LoginComponent {
 
+  erro: any;
   constructor (private http: HttpService, private router: Router) {}
   logar (form) {
     localStorage.removeItem("token");
@@ -25,6 +26,7 @@ export class LoginComponent {
         }
       },
       (error: any) => {
+      this.erro = true;
         console.log(error);
       }
     );

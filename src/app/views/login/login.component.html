@@ -13,13 +13,16 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="icon-user"></i></span>
                     </div>
-                    <input type="text" class="form-control" name="email" placeholder="Email" autocomplete="username" ngModel required>
+                    <input type="email" class="form-control" name="email" placeholder="Email" autocomplete="username" ngModel >
                   </div>
                   <div class="input-group mb-4">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="icon-lock"></i></span>
                     </div>
-                    <input type="password" class="form-control" name="password" placeholder="Senha" autocomplete="current-password" ngModel required>
+                    <input  minlength="1" type="password" class="form-control" name="password" placeholder="Senha" autocomplete="current-password" ngModel >
+                  </div>
+                  <div *ngIf="erro" class="alert alert-danger">
+                    <div>Erro ao tentar logar, verifique email e senha.</div>
                   </div>
                   <div class="row">
                     <div class="col-6">

@@ -22,7 +22,7 @@
               <input required="required" id="email" minlength="7" type="email" name="email" class="form-control" placeholder="Email" [(ngModel)]="usuario.email" #email="ngModel">
                 <div *ngIf="email.touched && !email.valid" class="alert alert-danger">
                   <div *ngIf="email.errors?.required"> Digite um Email</div>
-                  <div *ngIf="email.errors?.minlength"> Digite um Emailo valido </div>
+                  <div *ngIf="email.errors?.minlength"> Digite um Email valido </div>
                 </div>
             </div>
           </div>
@@ -53,7 +53,7 @@
             </div>
           </div>
           <button type="button" class="button btn1"[routerLink]="'/lista-usuarios/'"> Cancelar</button>
-          <button [disabled]="!fSalvar.valid" type="submit" class="button btn2"> Salvar</button>
+          <button type="submit" class="button btn2"> Salvar</button>
         </form>
       </div>
     </div>
